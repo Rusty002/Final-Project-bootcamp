@@ -26,3 +26,66 @@
 </div>
 
 <button type="button" class="btn btn-outline-dark btn-lg">Calculate</button>
+
+
+
+// for Reactive form
+// html
+<div class="container">
+  <div class="row">
+    <div class="col-md-6 offset-md-3">
+      <form [formGroup]="penaltyForm" (ngSubmit)="onSubmit()">
+        <div class="form-group">
+          <label for="startdate">
+            Issue Date:
+          </label>
+          <input formControlName="startDate" type="date" class="form-control">
+          <span *ngIf="penaltyForm.get('startDate')?.touched && penaltyForm.get('startDate')?.hasError('required')">Date is Required</span>
+        </div>
+        <div class="form-group">
+          <label for="lastdate">
+            Return Date:
+          </label>
+          <input formControlName="lastDate" type="date" class="form-control">
+          <span *ngIf="penaltyForm.get('lastDate')?.touched && penaltyForm.get('lastDate')?.hasError('required')">Date is Required</span>
+        </div>
+        <!-- For Dropdown -->
+        <div class="form-group">
+          <button class="btn btn-primary" [disabled]="!penaltyForm.valid">
+            Register
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+// ts
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+  // changes in ts 
+  penaltyForm!:FormGroup;
+  submitted = false;
+
+  constructor(private formBuilder:FormBuilder){}
+
+  ngOnInit(){
+    // validations
+
+    this.penaltyForm = this.formBuilder.group({
+      startDate: ['', Validators.required],
+      lastDate: ['', Validators.required]
+    })
+  }
+
+  onSubmit(){
+
+  }
+
+// css
+input.ng-touched.ng-invalid{
+    border: 2px solid red;
+}
+
+// main module
+//import
+import { ReactiveFormsModule } from '@angular/forms';
